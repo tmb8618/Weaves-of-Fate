@@ -31,9 +31,13 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+// app.get(this is the part of the url it looks for,
+//			this is the function it looks for in the filepath);
 app.get('/', routes.index);
 app.get('/users', user.list);
 app.get('/helloworld', routes.helloworld);
+app.get('/stories', routes.stories);
+
 
 app.listen(port, ipaddr, function(){
   console.log('Express server listening on port ' + app.get('port'));
