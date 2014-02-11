@@ -37,6 +37,7 @@ app.get('/', routes.index);
 app.get('/users', user.list);
 app.get('/helloworld', routes.helloworld);
 app.get('/stories', routes.stories);
+app.get('/stories/knightquest', routes.knightquest);
 
 
 app.listen(port, ipaddr, function(){
