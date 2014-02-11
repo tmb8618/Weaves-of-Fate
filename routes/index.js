@@ -20,3 +20,11 @@ exports.stories = function(req, res){
 exports.knightquest = function(req, res){
 	res.render('stories/knightquest', {title: 'Knight Quest'});
 };
+
+exports.newreader = function(req, res) {
+	res.render('newreader', {title: 'New Account Sign Up' });
+};
+
+exports.signin = function(req, res) {
+	res.render('signin', {title: 'Sign In'});
+};
