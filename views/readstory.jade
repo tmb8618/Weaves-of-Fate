@@ -1,0 +1,10 @@
+extends ../layout
+
+script
+	var request = new XMLHttpRequest();
+	request.open("GET", '/stories/knightquest.json');
+	request.send(null);
+	storyObject = JSON.parse(request.responseText);
+
+block content
+	

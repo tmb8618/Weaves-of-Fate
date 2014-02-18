@@ -1,0 +1,10 @@
+extends layout
+
+script(src='../scripts/ReaderManager.js');
+
+block content
+	p Username
+		input(id='username')
+	p Password
+		input(id='password')
+	button(id='submit' onclick='readerSignIn') Submit Info
