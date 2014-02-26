@@ -80,11 +80,11 @@ exports.createReader = function(req, res) {
 
 	ModelReader.findOne({readerName: username}, function() {
 		if (err) {
-			res.err('Something blew up. Not your things. My things. I\'m cleaning up now, try again').
+			res.err('Something blew up. Not your things. My things. I\'m cleaning up now, try again');
 		}
 
 		if (doc) {
-			res.conflict('This username already exists! Gotta choose a new one.')
+			res.conflict('This username already exists! Gotta choose a new one.');
 		}
 
 		var newReader = new ModelReader({readerName: username, readerPassword: password, readerNickname: nickname});
