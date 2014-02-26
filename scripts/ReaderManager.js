@@ -30,6 +30,4 @@ function readerSignIn() {
 				//the way I'm supposed to work this out.
 		}
 	});
-
-	
 }

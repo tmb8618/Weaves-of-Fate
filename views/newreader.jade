@@ -1,12 +1,11 @@
 extends layout
 
-script(src='../scripts/ReaderManager.js')
-
 block content
-	p username
-		input(id='username')
-	p password
-		input(id='password')
-	p thx
-	p bai
-	button(onclick='createNewReader') submit
+	form(id='newReader', action='/signin')
+		p username
+			input(id='username', type='text')
+		p password
+			input(id='password', type='password')
+		p Nickname
+			input(id='nickname', type='text')
+		button(onclick='createNewReader', type='submit') submit

@@ -8,6 +8,10 @@ var routes = require('./routes');
 var user = require('./routes/user');
 var http = require('http');
 var path = require('path');
+var bcrypt = require('bcrypt');
+
+var MemoryStore = express.session.MemoryStore;
+var sessionStore = new MemoryStore();
 
 var app = express();
 var port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
@@ -24,9 +28,14 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
-app.use(express.session());
+app.use(express.session({
+	key: 'reader.sid',
+	secret: '1n73n53_R34d1ng_4c710n',
+	store: sessionStore
+}));
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 // development only
 if ('development' == app.get('env')) {
@@ -40,9 +49,9 @@ app.get('/users', user.list);
 app.get('/helloworld', routes.helloworld);
 app.get('/stories', routes.stories);
 app.get('/stories/knightquest', routes.knightquest);
-app.get('/newreader', routes.newreader);
-app.get('/signin', routes.signin);
-app.get('/readstory/knightquest', routes.knightquest);
+app.get('/newreader', routes.newReaderPage);
+app.get('/signin', routes.signInPage);
+app.post('/', routes.signIn);
 
 //This hooks up the database to any and all scripts.
 //I THINK THIS MEANS THE KEYWORD 'mongoose' IS A GLOBAL REFERENCE TO THE DATABASE
