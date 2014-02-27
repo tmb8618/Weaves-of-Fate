@@ -1,7 +1,7 @@
 
 var user;
 var storyObject;
-
+var mongoose = require('mongoose');
 /*
  * GET home page.
  */
