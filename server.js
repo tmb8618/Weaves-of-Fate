@@ -17,7 +17,16 @@ var app = express();
 var port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
 var ipaddr = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/weavesoffate');
+var dbConnection = 'mongodb://localhost/weavesoffate';
+if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD){
+	dbConnection = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
+		process.env.OPENSHIFT_MONGODB_DB_PASSWORD + "@" +
+		process.env.OPENSHIFT_MONGODB_DB_HOST + ':' +
+		process.env.OPENSHIFT_MONGODB_DB_PORT + '/' +
+		process.env.OPENSHIFT_APP_NAME;
+}
+
+mongoose.connect(dbConnection);
 
 // all environments
 app.set('views', path.join(__dirname, 'views'));
