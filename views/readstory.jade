@@ -1,10 +1,9 @@
-extends ../layout
+extends layout
 
-script
-	var request = new XMLHttpRequest();
-	request.open("GET", '/stories/knightquest.json');
-	request.send(null);
-	storyObject = JSON.parse(request.responseText);
-
-block content
-	
+unless story
+	block head
+		h1= story.index
+		h2= story.title
+	block content
+		each paragraph in story.text
+			p story.text[index]

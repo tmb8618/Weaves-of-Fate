@@ -5,7 +5,10 @@ block content
 	p A story written by dozens.
 	p To view the list of stories written, click 
 		a(href='/stories') here
-	p New to the site? Create an account:
-	a.button(id='newReader' href='newreader') Create Account
-	p Already have an account? Sign in:
-	a.button(id='signIn' href='signin') Sign In
+	if reader
+		p New to the site? Create an account:
+		a.button(id='newReader' href='newreader') Create Account
+		p Already have an account? Sign in:
+		a.button(id='signIn' href='signin') Sign In
+	else
+		p Welcome, #{reader.readerNickname}

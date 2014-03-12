@@ -1,11 +1,15 @@
 extends layout
 
 block content
-	form(id='newReader', action='/signin')
+	h1= title
+	if error
+		p #{error}
+
+	form(id='newReader', action='/createReader', method='POST')
 		p username
-			input(id='username', type='text')
+			input(name='username', type='text')
 		p password
-			input(id='password', type='password')
+			input(name='password', type='password')
 		p Nickname
-			input(id='nickname', type='text')
-		button(onclick='createNewReader', type='submit') submit
+			input(name='nickname', type='text')
+		input(type='submit', value='submit')

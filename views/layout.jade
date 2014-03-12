@@ -1,6 +1,9 @@
 doctype html
 html(lang="en")
 	head
-		title= why
+		if(reader)
+			p Welcome #{reader.nickname}
+		title= title
+		block head
 	body
 		block content

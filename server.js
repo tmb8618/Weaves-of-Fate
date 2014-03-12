@@ -57,10 +57,13 @@ app.get('/', routes.index);
 app.get('/users', user.list);
 app.get('/helloworld', routes.helloworld);
 app.get('/stories', routes.stories);
-app.get('/stories/knightquest', routes.knightquest);
+app.get('/stories/:story', routes.readStory);
 app.get('/newreader', routes.newReaderPage);
 app.get('/signin', routes.signInPage);
-app.post('/', routes.signIn);
+app.get('/reader/:readerName', routes.accountPage);
+app.post('/');
+app.post('/createReader', routes.createReader);
+app.post('/readerSignIn', routes.signIn);
 
 //This hooks up the database to any and all scripts.
 //I THINK THIS MEANS THE KEYWORD 'mongoose' IS A GLOBAL REFERENCE TO THE DATABASE

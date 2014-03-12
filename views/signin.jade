@@ -1,9 +1,13 @@
 extends layout
 
 block content
-	form(id='Login', action='/')
+	h1= title
+	if error
+		p= error
+
+	form(id='Login', action='/readerSignIn')
 		p Username
 			input(id='username', type='text')
 		p Password
 			input(id='password', type='password')
-		input(id='submit', type='submit', onclick='readerSignIn') Submit Info
+		input(id='submit', type='submit', value='Submit Info') 

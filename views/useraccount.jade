@@ -1,0 +1,15 @@
+extends layout
+
+block head
+	if error
+		title No Reader Found
+		h1 No Reader Found
+	else
+		title *{reader.readerNickname}'s Account
+		h1 #{reader.readerNickname}'s Account
+
+block content
+	if error
+		p There is no reader with this name
+	else
+		
