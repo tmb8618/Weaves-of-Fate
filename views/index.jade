@@ -5,10 +5,11 @@ block content
 	p A story written by dozens.
 	p To view the list of stories written, click 
 		a(href='/stories') here
-	if reader
+	if reader == undefined
 		p New to the site? Create an account:
 		a.button(id='newReader' href='newreader') Create Account
 		p Already have an account? Sign in:
 		a.button(id='signIn' href='signin') Sign In
 	else
-		p Welcome, #{reader.readerNickname}
+		p Welcome, 
+			a(href='/useraccount/#{reader.readerName}') #{reader.readerNickname}

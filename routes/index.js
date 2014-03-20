@@ -7,24 +7,22 @@ var server = require('../server.js');
 var db = server.mongoose;
 var server = require('../server.js');
 var db = server.mongoose;
-var OBJ_Reader = require('../scripts/Reader.js');
+var models = require('../models');
 /*
  * GET home page.
  */
 
-exports.index = function(req, res){
+exports.index = function(req, res) {
 	console.log(req.session);
 
 	res.render('index', { title: 'Weaves of Fate' });
 };
 
-exports.helloworld = function(req, res){
+exports.helloworld = function(req, res) {
 	res.render('helloworld', { title: 'KAWAII!'});
 };
 
-exports.stories = function(req, res){
-
-
+exports.stories = function(req, res) {
 	res.render('stories', {title: 'Current Weaves'});
 };
 
@@ -41,7 +39,9 @@ exports.createReader = function(req, res) {
 		return res.render('newreader', {title: 'New Account Sign Up', error: 'Can\'t create a new reader. You forgot to fill something in.'});
 	}
 
-	OBJ_Reader.ModelReader.findOne({readerName: username}, function(err, doc) {
+	console.log(models);
+
+	models.Reader.readerModel.findOne({readerName: username}, function(err, doc) {
 		if (err) {
 			//RENDER A PAGE...BUT WITH AN ERROR
 			return res.render('newreader', {title: 'New Account Sign Up', error: 'Something blew up. Not your things. My things. I\'m cleaning up now, try again'});
@@ -51,7 +51,7 @@ exports.createReader = function(req, res) {
 			return res.render('newreader', {title: 'New Account Sign Up', error: 'This username already exists! Gotta choose a new one.'});
 		}
 
-		var newReader = new OBJ_Reader.ModelReader({readerName: username, readerPassword: password, readerNickname: nickname, level: 2});
+		var newReader = new models.Reader.readerModel({readerName: username, readerPassword: password, readerNickname: nickname, level: 2});
 		newReader.save(function (err) {
 			if (err) {
 				console.log(err);
@@ -72,13 +72,13 @@ exports.signIn = function (req, res) {
 	var user = req.content.username;
 	var pass = req.content.password;
 	
-	var reader = OBJ_Reader.ModelReader.find({readerName: user}, function (error) {
+	var reader = models.Reader.readerModel.find({readerName: user}, function (error) {
 		if (error) {
 			res.render('signin', {title: 'Sign In', error: 'Can\'t find that user. Are you sure you that account exists?'});
 		}
 
 		if (bcrypt.compareSync(pass, reader.readerPassword)) {
-			req.locals.reader = OBJ_Reader.readerData();
+			req.locals.reader = models.Reader.readerData();
 
 			res.render('index', 'Weaves of Fate');
 		}
@@ -89,17 +89,18 @@ exports.signIn = function (req, res) {
 };
 
 exports.readStory = function (req, res) {
-	$.getJSON("../stories/" + req.params.story + ".json", function(data) {
-		res.render('readstory', {title: req.params.story, story: data});
-	});
+	//res.render('readstory', {title: req.params.story, story: data});
 };
 
 exports.accountPage = function (req, res) {
-	var reader = OBJ_Reader.ModelReader.find({readerName: req.params.reader}, function (error) {
-		if (error) {
-			res.render('useraccount', {error: true});
+	console.log(req.params.readerName);
+
+	models.Reader.readerModel.findOne({readerName: req.params.readerName}, function (error, reader) {
+		console.log(reader);
+		if (error || !reader) {
+			return res.render('useraccount', {error: true});
 		}
 
-		res.render('useraccount', reader);
+		res.render('useraccount', {reader: reader});
 	});
 };

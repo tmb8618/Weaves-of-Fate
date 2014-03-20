@@ -3,15 +3,12 @@ var bcrypt = require('bcrypt');
 var server = require('../server.js');
 var db = server.mongoose;
 
-var readerModel;
-
 var setPasswordFunc = function(password) {
 	bcrypt.hashSync(password, 8);
 };
 
 var ReaderSchema = new mongoose.Schema(
-	{
-		readerName: {
+	{readerName: {
 			type: String,
 			unique: true,
 		},
@@ -28,13 +25,13 @@ var ReaderSchema = new mongoose.Schema(
 		storyProgress: {}
 	});
 
-readerSchema.methods.readerData = function() {
+ReaderSchema.methods.readerData = function() {
 	return {
 		name: this.readerName,
 		nickname: this.readerNickname
 	};
 }
 
-ReaderModel = mongoose.model('Readers', ReaderSchema);
-module.exports.readerModel = ReaderModel;
+var ModelReader = mongoose.model('Reader', ReaderSchema);
+module.exports.readerModel = ModelReader;
 module.exports.readerSchema = ReaderSchema;
