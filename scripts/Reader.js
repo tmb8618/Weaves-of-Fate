@@ -6,7 +6,8 @@ var db = server.mongoose;
 var readerModel;
 
 var setPasswordFunc = function(password) {
-	bcrypt.hashSync(password, 8);
+	var hashPass = bcrypt.hashSync(password, 10);
+	console.log(hashPass);
 };
 
 var ReaderSchema = new mongoose.Schema(
@@ -26,13 +27,31 @@ var ReaderSchema = new mongoose.Schema(
 		},
 		level: Number,
 		storyProgress: {}
-	});
+	}
+);
 
-readerSchema.methods.readerData = function() {
+/*ReaderSchema.pre('save', function(next) {
+	
+	if (this.isModified('password')) {
+		return next();
+	}
+
+	var salt = bcrypt.genSaltSync(10);
+	bcrypt.hashSync(this.password, salt);
+	this.password = 
+});*/
+
+ReaderSchema.methods.ReaderData = function() {
 	return {
 		name: this.readerName,
 		nickname: this.readerNickname
 	};
+}
+
+ReaderSchema.methods.validatePassword = function(password) {
+	console.log(password);
+	console.log(this.password);
+	return bcrypt.compareSync(password, this.password);
 }
 
 ReaderModel = mongoose.model('Readers', ReaderSchema);

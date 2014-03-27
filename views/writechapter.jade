@@ -1,5 +1,13 @@
 extends layout
 
+block head
+	script(src='../ckeditor/ckeditor.js')
+
 block content
 	h1= title
-	a(href='/stories/knightquest') Knight Quest
+	form(action='/submitChapter', method='POST')
+		textarea(name='chapterPane', id='chapterPane', rows='10', cols='80')
+		p BRO U KNO U WANNA
+		script.
+			CKEDITOR.replace('chapterPane');
+		input(type='submit', value='Send')

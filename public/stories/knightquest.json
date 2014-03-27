@@ -1,0 +1,24 @@
+{
+	"Title": "Knight Quest",
+	"Chapters":
+	[
+		{
+			"Index": 0,
+			"Title": "Prolouge",
+			"HeaderPicture": "",
+			"Text": [
+				"In the strife of the Fractured Kingdom, fifteen kings vie for control of the land in an unceasing war for power. For centuries their families fought, through wars, alliances, gold and betrayls. At the height of a particularly bloody string of confrontations, one man arose in the Halls of Light and claimed to be the true king of the land. What would normally be dismissed by the men and women who ruled their kingdoms, found themselves compelled to answer this man's call. When all the rulers arrived, the man in the Halls of Light proclaimed to the land that he manipulated each king and queen, using their very laws against them, to force each to give away their kingdom. Using otherworldly magic worked in the ink and paper, in addition to the spells cast on the Fractured Kings, the Invisible Emperor was crowned. His first order was to see the Fractured Kings and their families executed.",
+				"Nearly one hundred cycles have passed since the Final Battles. The newly named Invisible Kingdoms have enjoyed peace under the long rule of the Invisible Emperor. However, under the Emperor's own laws, no ruler may sit on the Throne of Scripts for one hundred cycles, and a new ruler is to be named soon. The people are anxious, uncertain of the future without the great ruler that founded the Empire.",
+				"A squire readies for their ascendance into Knighthood. A hard ten years it has been, but no less is to be expected for the diversity of the schooling. After all, only one hundred squires are chosen to become Knights each cycle. This squire, and their 99 classmates have proven to be leaders, scholars and master of arms; now distinguished to be the next of the elite to rule, study and defend the Insivible Empire. Despite living in the Capital, Light's Halls, the problems of a new Emperor seem distant as they buckle their squire's armguard for the final time, and apporach the rest of the ascending class."],
+			"FooterPicture": ""
+		},
+
+		{
+			"Index": 1,
+			"Title": "The Beginning",
+			"HeaderPicture": "",
+			"Text": [""],
+			"FooterPicture": ""
+		}
+	]
+}

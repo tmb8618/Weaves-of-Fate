@@ -5,9 +5,9 @@ block content
 	if error
 		p= error
 
-	form(id='Login', action='/readerSignIn')
+	form(id='Login', action='/readerSignIn', method='POST')
 		p Username
-			input(id='username', type='text')
+			input(name='username', type='text')
 		p Password
-			input(id='password', type='password')
-		input(id='submit', type='submit', value='Submit Info') 
+			input(name='password', type='password')
+		input(type='submit', value='Submit Info') 

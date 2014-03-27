@@ -9,6 +9,18 @@ var user = require('./routes/user');
 var http = require('http');
 var path = require('path');
 var bcrypt = require('bcrypt');
+var fs = require('fs');
+var knightQuestStory;
+
+var knightquest = fs.readFileSync('/weavesoffate/public/stories/knightquest.json');
+if (knightquest) {
+	knightQuestStory = JSON.parse(knightquest);
+	console.log(knightQuestStory);
+}
+else {
+	console.log("SHUTTING DOWN CUZ NO KNIGHTQUEST.JSON");
+	process.exit(5);
+}
 
 var MemoryStore = express.session.MemoryStore;
 var sessionStore = new MemoryStore();
@@ -61,13 +73,17 @@ app.get('/stories/:story', routes.readStory);
 app.get('/newreader', routes.newReaderPage);
 app.get('/signin', routes.signInPage);
 app.get('/reader/:readerName', routes.accountPage);
+app.get('/write/:story', routes.writeChapter);
 app.post('/');
 app.post('/createReader', routes.createReader);
 app.post('/readerSignIn', routes.signIn);
+app.post('/submitChapter', routes.submitChapter);
 
 //This hooks up the database to any and all scripts.
 //I THINK THIS MEANS THE KEYWORD 'mongoose' IS A GLOBAL REFERENCE TO THE DATABASE
 exports.mongoose = mongoose;
+exports.knightquest = knightQuestStory;
+exports.ckeditor
 
 app.listen(port, ipaddr, function(){
   console.log('Express server listening on port ' + app.get('port'));
