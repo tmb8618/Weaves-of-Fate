@@ -3,7 +3,7 @@ var bcrypt = require('bcrypt');
 var server = require('../server.js');
 var db = server.mongoose;
 
-var readerModel;
+var ReaderModel;
 
 var setPasswordFunc = function(password) {
 	var hashPass = bcrypt.hashSync(password, 10);
@@ -30,18 +30,7 @@ var ReaderSchema = new mongoose.Schema(
 	}
 );
 
-/*ReaderSchema.pre('save', function(next) {
-	
-	if (this.isModified('password')) {
-		return next();
-	}
-
-	var salt = bcrypt.genSaltSync(10);
-	bcrypt.hashSync(this.password, salt);
-	this.password = 
-});*/
-
-ReaderSchema.methods.ReaderData = function() {
+ReaderSchema.methods.readerData = function() {
 	return {
 		name: this.readerName,
 		nickname: this.readerNickname
@@ -50,8 +39,8 @@ ReaderSchema.methods.ReaderData = function() {
 
 ReaderSchema.methods.validatePassword = function(password) {
 	console.log(password);
-	console.log(this.password);
-	return bcrypt.compareSync(password, this.password);
+	console.log(this.readerPassword);
+	return bcrypt.compareSync(password, this.readerPassword);
 }
 
 ReaderModel = mongoose.model('Readers', ReaderSchema);

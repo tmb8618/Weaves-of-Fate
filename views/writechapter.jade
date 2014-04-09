@@ -1,13 +1,58 @@
 extends layout
 
 block head
-	script(src='../ckeditor/ckeditor.js')
+	script(src='/ckeditor/ckeditor.js')
 
 block content
 	h1= title
 	form(action='/submitChapter', method='POST')
-		textarea(name='chapterPane', id='chapterPane', rows='10', cols='80')
 		p BRO U KNO U WANNA
-		script.
-			CKEDITOR.replace('chapterPane');
+		textarea(name='chapterPane', id='chapterPane', rows='10', cols='80')
+		div.row
+			div.col-md-6 Upload a Header Image
+				div#dropzoneHeader
+					img(src='../images/sword-temp.png', name='headerImage', id='headerImage')
+			div.col-md-6 Upload a Footer Image
+				div#dropzoneFooter
+					img(src='../images/shield-temp.png', name='footerImage', id='footerImage')
 		input(type='submit', value='Send')
+	script.
+		CKEDITOR.replace('chapterPane');
+
+		document.querySelector('#dropzoneHeader').addEventListener('dragover', function(e) {
+			e.stopPropagation();
+			e.preventDefault();
+			e.dataTransfer.dropEffect = 'copy';
+			//console.log('drag over');
+		});
+
+		document.querySelector('#dropzoneHeader').addEventListener('drop', function(e) {
+			e.stopPropagation();
+			e.preventDefault();
+			var reader = new FileReader();
+
+			reader.addEventListener('load', function(e) {
+				document.querySelector('#headerImage').src = e.target.result;
+			});
+
+			reader.readAsArrayBuffer(e.dataTransfer.files[0]);
+		});
+
+		document.querySelector('#dropzoneFooter').addEventListener('dragover', function(e) {
+			e.stopPropagation();
+			e.preventDefault();
+			e.dataTransfer.dropEffect = 'copy';
+			//console.log('drag over');
+		});
+
+		document.querySelector('#dropzoneFooter').addEventListener('drop', function(e) {
+			e.stopPropagation();
+			e.preventDefault();
+			var reader = new FileReader();
+
+			reader.addEventListener('load', function(e) {
+				document.querySelector('#footerImage').src = e.target.result;
+			});
+
+			reader.readAsArrayBuffer(e.dataTransfer.files[0]);
+		});

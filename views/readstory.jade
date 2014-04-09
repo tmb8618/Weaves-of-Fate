@@ -5,6 +5,8 @@ unless story
 		h1= story.Index
 		h2= story.Title
 	block content
+		img(src=story.HeaderPicture)
 		each chapter in story.Chapters
 			each paragraph in chapter.Text
 				p #{paragraph}
+		img(src=story.FooterPicture)

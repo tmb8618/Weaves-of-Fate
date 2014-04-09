@@ -1,0 +1,13 @@
+extends layout
+
+block head
+	script(src='../ckeditor/ckeditor.js')
+
+block content
+	h1= title
+	form(action='/submitStory', method='POST')
+		textarea(name='storyPane', id='storyPane', rows='10', cols='80')
+		p BRO U KNO U WANNA
+		script.
+			CKEDITOR.replace('storyPane');
+		input(type='submit', value='Send')

@@ -58,6 +58,7 @@ app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
@@ -69,21 +70,26 @@ app.get('/', routes.index);
 app.get('/users', user.list);
 app.get('/helloworld', routes.helloworld);
 app.get('/stories', routes.stories);
-app.get('/stories/:story', routes.readStory);
+app.get('/read/:story', routes.readStory);
 app.get('/newreader', routes.newReaderPage);
 app.get('/signin', routes.signInPage);
 app.get('/reader/:readerName', routes.accountPage);
 app.get('/write/:story', routes.writeChapter);
+app.get('/:story/chapters', routes.chapterList);
+app.get('/:story/chapters/:chapterNumber', routes.chapterSubmissions);
+app.get('/:story/chapters/:chapterNumber/:chapterTitle', routes.readChapter);
 app.post('/');
 app.post('/createReader', routes.createReader);
 app.post('/readerSignIn', routes.signIn);
 app.post('/submitChapter', routes.submitChapter);
+app.post('/changeNickname', routes.changeNickname);
+
+
 
 //This hooks up the database to any and all scripts.
 //I THINK THIS MEANS THE KEYWORD 'mongoose' IS A GLOBAL REFERENCE TO THE DATABASE
 exports.mongoose = mongoose;
 exports.knightquest = knightQuestStory;
-exports.ckeditor
 
 app.listen(port, ipaddr, function(){
   console.log('Express server listening on port ' + app.get('port'));
