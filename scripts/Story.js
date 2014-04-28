@@ -7,31 +7,37 @@ var ChapterModel;
 
 var StorySchema = new mongoose.Schema(
 	{
-		StoryName: {
+		name: {
 			type: String,
 			unique: true,
 		},
-		cover: 'cover.png',
-		otherArt: [/*images*/],
-		chapters: [{type: Schema.Types.ObjectId, ref: 'Chapter'}],
+		cover: String,
+		//otherArt: [/*images*/],
+		prolouge: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Chapter'
+		},
+		chapters: [{type: mongoose.Schema.Types.ObjectId, ref: 'Chapter'}],
 		createdDate: {
 			type: Date,
 			'default': Date.now
-		},
-		level: Number,
+		}
 	}
 );
 
+/* How often is too often to be accessing database? Is there any slowdown? 
+	Is it ok to access the database for each chapter read? */
 var ChapterSchema = new mongoose.Schema(
 	{
 		title: String,
 		author: {
-			Schema.Types.ObjectId
+			type: mongoose.Schema.Types.ObjectId,
 			ref: 'Reader'
 		},
-		headerImage: /*image*/,
+		chapterNumber: String,
+		//headerImage: /*image*/,
 		text: [String],
-		footerImage: /*Image*/
+		//footerImage: /*Image*/
 		createdDate: {
 			type: Date,
 			'default': Date.now

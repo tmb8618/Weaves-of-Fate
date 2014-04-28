@@ -2,11 +2,13 @@ extends layout
 
 unless story
 	block head
-		h1= story.Index
-		h2= story.Title
+		if(chapterIndex)
+			h1 #{chapterIndex}
+			h2 #{chapterTitle}
+		else
+			h1 #{chapterTitle}
 	block content
-		img(src=story.HeaderPicture)
-		each chapter in story.Chapters
-			each paragraph in chapter.Text
-				p #{paragraph}
-		img(src=story.FooterPicture)
+		if(error)
+			p #{error}
+		else
+			//p chapterText

@@ -1,13 +1,20 @@
 extends layout
 
 block head
-	script(src='../ckeditor/ckeditor.js')
+	script(src='/ckeditor/ckeditor.js')
 
 block content
-	h1= title
+	h1 #{title}
+	if(error)
+		p #{error}
 	form(action='/submitStory', method='POST')
+		p Story Title 
+			input(type='text' name='storyName')
+		br
+		p Chapter title
+			input(type='text' name='firstChapter')
+		p Here you should write the prologue or introduction to the story. This should be thought of as a seed, and if possible, not your work. Due to the collaborative nature of this site, a story may become something very far removed from what the creator of the story had in mind.
 		textarea(name='storyPane', id='storyPane', rows='10', cols='80')
-		p BRO U KNO U WANNA
-		script.
-			CKEDITOR.replace('storyPane');
 		input(type='submit', value='Send')
+	script.
+		CKEDITOR.replace('storyPane');

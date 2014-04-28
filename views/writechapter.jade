@@ -4,7 +4,7 @@ block head
 	script(src='/ckeditor/ckeditor.js')
 
 block content
-	h1= title
+	h1 #{title}
 	form(action='/submitChapter', method='POST')
 		p BRO U KNO U WANNA
 		textarea(name='chapterPane', id='chapterPane', rows='10', cols='80')

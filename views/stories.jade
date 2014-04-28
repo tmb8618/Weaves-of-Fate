@@ -5,6 +5,16 @@ script(src='../scripts/storiesPage.js')
 block content
 	h1= title
 	div.storyContainer
+		if (error)
+			p #{error}
+
+		if (stories)
+			each Story in stories
+				a(href='/read/' + Story)
+					img(src='/images/sword-temp.png')
+					p= Story
+
+	//
 		a(href='/read/knightquest')
 			img(src='/images/')
 			p Knight Quest
