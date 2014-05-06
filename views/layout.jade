@@ -2,19 +2,22 @@ doctype html
 html(lang="en")
 	head
 		script(src='/javascripts/jquery.js')
-		link(rel='stylesheet', href='../bootstrap/css/bootstrap.min.css')
-		link(rel='stylesheet', href='../stylesheets/style.css')
-
-		if(reader)
-			p Welcome 
-				a(href='/reader/#{reader.name}') #{reader.nickname}
-		else
-			div.row
-				div.col-md-1
-					a(href='/signin') Sign In
-				div.col-md-1
-					a(href='/newreader') New Account
-		title= title
-		block head
-	body#color
+		link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
+		link(rel='stylesheet', href='/stylesheets/style.css')
+		title #{title}
+		
+		block header
+			
+	body
+		section
+			a(id='homeLink', href='/') &#9733;
+			if(reader)
+				p Welcome 
+					a(href='/reader/#{reader.name}') #{reader.nickname}
+			else
+				div.row
+					div.col-md-1
+						a(href='/signin') Sign In
+					div.col-md-1
+						a(href='/newreader') New Account
 		block content

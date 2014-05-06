@@ -7,7 +7,8 @@ var ReaderModel;
 
 var setPasswordFunc = function(password) {
 	var hashPass = bcrypt.hashSync(password, 10);
-	console.log(hashPass);
+	console.log('hashPass:' + hashPass);
+	return hashPass;
 };
 
 var ReaderSchema = new mongoose.Schema(
@@ -38,8 +39,7 @@ ReaderSchema.methods.readerData = function() {
 }
 
 ReaderSchema.methods.validatePassword = function(password) {
-	console.log(password);
-	console.log(this.readerPassword);
+	console.log(this);
 	return bcrypt.compareSync(password, this.readerPassword);
 }
 

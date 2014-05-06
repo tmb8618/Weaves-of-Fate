@@ -1,14 +1,39 @@
-extends layout
+//- Uses Special layout!!
+extends storylayout
 
 unless story
-	block head
+	block header
+		script.
+
+			"use strict";
+
+			window.addEventListener('load', function(e) {
+				//console.log('Loaded');
+				/*var newText = "#{chapterText}";
+				newText = newText.replace(/&lt;p&gt;/gm, '<p>'); //Create Paragraph Tags
+				newText = newText.replace(/&lt;\/p&gt;/gm, '</p>'); //Close Paragraph Tags
+				newText = newText.replace(/&amp;quot;/gm, '\"'); //switch quotations
+				newText = newText.replace(/&amp;#39;/gm, '\''); //switch apostophies*/
+				
+				document.querySelector('#contentGoesHere').innerHTML = '!{chapterText}';
+
+				var nextChapter = #{chapterIndex} + 1;
+
+				var nextChapterURL = '/read/#{storyName}/' + nextChapter;
+				document.querySelector('#linkToNextChapter').href = nextChapterURL;
+			});
+
+	block append content
 		if(chapterIndex)
 			h1 #{chapterIndex}
 			h2 #{chapterTitle}
 		else
 			h1 #{chapterTitle}
-	block content
 		if(error)
 			p #{error}
-		else
-			//p chapterText
+		section(id='contentGoesHere')
+		span
+			a#linkToNextChapter NEXT CHAPTER
+				img(src='/images/wot-temp.jpg')
+
+	div#sidebar

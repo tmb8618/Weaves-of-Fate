@@ -10,7 +10,7 @@ var http = require('http');
 var path = require('path');
 var bcrypt = require('bcrypt');
 var fs = require('fs');
-var knightQuestStory;
+/*var knightQuestStory;
 
 var knightquest = fs.readFileSync('/weavesoffate/public/stories/knightquest.json');
 if (knightquest) {
@@ -20,7 +20,7 @@ if (knightquest) {
 else {
 	console.log("SHUTTING DOWN CUZ NO KNIGHTQUEST.JSON");
 	process.exit(5);
-}
+}*/
 
 var MemoryStore = express.session.MemoryStore;
 var sessionStore = new MemoryStore();
@@ -68,22 +68,23 @@ if ('development' == app.get('env')) {
 //			this is the function it looks for in the filepath);
 app.get('/', routes.index);
 app.get('/users', user.list);
-app.get('/helloworld', routes.helloworld);
+//app.get('/helloworld', routes.helloworld);
 app.get('/stories', routes.stories);
-app.get('/read/:story', routes.readStory);
 app.get('/newreader', routes.newReaderPage);
 app.get('/signin', routes.signInPage);
 app.get('/reader/:readerName', routes.accountPage);
 app.get('/writestory', routes.writeStory);
-app.get('/write/:story', routes.writeChapter);
-app.get('/read/:story/chapters', routes.chapterList);
-app.get('/read/:story/chapters/:chapterNumber', routes.chapterSubmissions);
-app.get('/read/:story/chapters/:chapterNumber/:chapterTitle', routes.readChapter);
+app.get('/write/:story/:chapterNumber', routes.writeChapter);
+app.get('/read/:story', routes.readStory);
+app.get('/read/:story/', routes.readStory);
+app.get('/read/:story/:chapterNumber', routes.readStory);
+app.get('/read/:story/:chapterNumber/', routes.readStory);
+//app.get('/read/:story/chapters/:chapterNumber/:chapterTitle', routes.readChapter);
 app.post('/');
 app.post('/submitStory', routes.submitStory);
 app.post('/createReader', routes.createReader);
 app.post('/readerSignIn', routes.signIn);
-app.post('/submitChapter', routes.submitChapter);
+app.post('/submitChapter/:story', routes.submitChapter);
 app.post('/changeNickname', routes.changeNickname);
 
 
@@ -91,7 +92,7 @@ app.post('/changeNickname', routes.changeNickname);
 //This hooks up the database to any and all scripts.
 //I THINK THIS MEANS THE KEYWORD 'mongoose' IS A GLOBAL REFERENCE TO THE DATABASE
 exports.mongoose = mongoose;
-exports.knightquest = knightQuestStory;
+//exports.knightquest = knightQuestStory;
 
 app.listen(port, ipaddr, function(){
   console.log('Express server listening on port ' + app.get('port'));

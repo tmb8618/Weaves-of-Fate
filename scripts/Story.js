@@ -13,10 +13,6 @@ var StorySchema = new mongoose.Schema(
 		},
 		cover: String,
 		//otherArt: [/*images*/],
-		prolouge: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Chapter'
-		},
 		chapters: [{type: mongoose.Schema.Types.ObjectId, ref: 'Chapter'}],
 		createdDate: {
 			type: Date,
@@ -29,12 +25,14 @@ var StorySchema = new mongoose.Schema(
 	Is it ok to access the database for each chapter read? */
 var ChapterSchema = new mongoose.Schema(
 	{
+		relatedStory: mongoose.Schema.Types.ObjectId,
+		canon: Boolean,
 		title: String,
 		author: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'Reader'
 		},
-		chapterNumber: String,
+		chapterNumber: Number,
 		//headerImage: /*image*/,
 		text: [String],
 		//footerImage: /*Image*/
@@ -54,4 +52,3 @@ module.exports.storyModel = StoryModel;
 module.exports.storySchema = StorySchema;
 module.exports.chapterModel = ChapterModel;
 module.exports.chapterSchema = ChapterSchema;
-

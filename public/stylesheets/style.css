@@ -2,6 +2,10 @@
   
 }
 
+#homeLink {
+	font-size: 350%;
+}
+
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -9,4 +13,17 @@ body {
 
 a {
   color: #00B7FF;
+}
+
+.tabbed {
+	padding-left: 3em;
+}
+
+.largerReadingFont {
+	font-size: 135%;
+}
+
+.adviceBuffer {
+	height: 2px;
+	padding: 0px;
 }

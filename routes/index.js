@@ -70,14 +70,19 @@ exports.createReader = function(req, res) {
 	dbReader.readerModel.findOne({readerName: username}, function(err, doc) {
 		if (err) {
 			//RENDER A PAGE...BUT WITH AN ERROR
-			return res.render('newreader', {title: 'New Account Sign Up', reader: req.session.reader, error: 'Something blew up. Not your things. My things. I\'m cleaning up now, try again.'});
-		}
+			return res.render('newreader',{title: 'New Account Sign Up', reader: req.session.reader, error: 'Something blew up. Not your things. My things. I\'m cleaning up now, try again.'});
+		} 
 
 		if (doc) {
 			return res.render('newreader', {title: 'New Account Sign Up', reader: req.session.reader, error: 'This username already exists! Gotta choose a new one.'});
 		}
 
+		console.log(password);
+
 		var newReader = new dbReader.readerModel({readerName: username, readerPassword: password, readerNickname: nickname, level: 2});
+
+		console.log(newReader);
+
 		newReader.save(function (err) {
 			if (err) {
 				console.log(err);
@@ -122,30 +127,54 @@ exports.signIn = function (req, res) {
 };
 
 exports.readStory = function (req, res) {
+
+	var chapterNumInt = parseInt(req.params.chapterNumber);
+
 	dbStory.storyModel.findOne({name: req.params.story}, function (error, story) {
 		if (error) {
 			return res.render('stories', {title: 'Current Weaves', reader: req.session.reader, error: 'A database error. Try again. Or try again in an hour or so. Whenever. But whatever it is, its not your fault.'});
 		}
 
 		if (story) {
-			if (req.params.chapter) {
+			if (req.params.chapterNumber) {
+
+				console.log(story.chapters.length + ', ' + chapterNumInt);
+
 				if (req.params.chapter < story.chapters.length)	{
-						dbStory.storyModel.findOne({_id: story.chapters[req.params.chapter]}, function(error, chapter) {
+						dbStory.chapterModel.find({relatedStory: story.id, canon: true}, function(error, chapters) {
 							if (error) {
 								return res.render('readstory', {title:'DB_ERROR', reader: req.session.reader, error: 'A database error retrieving the chapter. Not your fault. Try again.'});
 							}
 
+							var slimChapters = [{
+								chaptNum: -1,
+								chaptTitle: ""
+							}];
+
+							chapters.forEach(function(chapt, index) {
+								dbStory.chapterModel.findById(chapt, function(error, oneChapt) {
+									if (error) {
+										return res.render('stories', {title: 'Current Weaves', reader: req.session.reader, error: 'A database error. Try again. Or try again in an hour or so. Whenever. But whatever it is, its not your fault.'});
+									}
+									slimChapters[index].chaptNum = oneChapt.chapterNumber;
+									slimChapters[index].chaptTitle = oneChapt.title;
+								});
+							});
+
 							return res.render('readstory',
 							{
-								title: story.name,
+								storyName: story.name,
 								reader: req.session.reader,
-								chapterIndex: chapter.chapterNumber,
-								chapterTitle: chapter.title,
-								chapterText: chapter.text
+								chapterIndex: chapters[req.params.chapter].chapterNumber,
+								chapterTitle: chapters[req.params.chapter].title,
+								chapterText: chapters[req.params.chapter].text,
+								chapterList: slimChapters
 							});
 						});
-
-				} else {
+				} else if (chapterNumInt == story.chapters.length) {
+					chapterNumInt++;
+					res.redirect('/write/' + req.params.story + '/' + chapterNumInt);
+				} else  {
 					return res.render('readstory',
 					{
 						title: story.name,
@@ -154,21 +183,36 @@ exports.readStory = function (req, res) {
 					});
 				}
 			} else {
-				//proabably <- DEFINITELY gotta .find chapters[0]...
+				var slimChapters = [{
+					chaptNum: -1,
+					chaptTitle: ""
+				}];
 
-				dbStory.storyModel.findOne({_id: story.chapters[0]}, function(error, chapter) {
+				story.chapters.forEach(function(chapt, index) {
+					dbStory.chapterModel.findById(chapt, function(error, oneChapt) {
+						if (error) {
+							return res.render('stories', {title: 'Current Weaves', reader: req.session.reader, error: 'A database error. Try again. Or try again in an hour or so. Whenever. But whatever it is, its not your fault.'});
+						}
+						slimChapters[index].chaptNum = oneChapt.chapterNumber;
+						slimChapters[index].chaptTitle = oneChapt.title;
+					});
+				});
+
+				dbStory.chapterModel.findById(story.chapters[0], function(error, firstChapter) {
 					if (error) {
-						return res.render('readstory', {title:'DB_ERROR', reader: req.session.reader, error: 'A database error retrieving the chapter. Not your fault. Try again.'});
+						return res.render('stories', {title: 'Current Weaves', reader: req.session.reader, error: 'A database error. Try again. Or try again in an hour or so. Whenever. But whatever it is, its not your fault.'});
 					}
 
 					return res.render('readstory',
-						{
-							title: story.name,
-							reader: req.session.reader,
-							chapterTitle: chapter.title,
-							chapterText: chapter.text
-						});
-				});
+					{
+						storyName: story.name,
+						reader: req.session.reader,
+						chapterIndex: firstChapter.chapterNumber,
+						chapterTitle: firstChapter.title,
+						chapterText: firstChapter.text,
+						chapterList: slimChapters
+					});
+				});	
 
 				
 			}
@@ -198,6 +242,8 @@ exports.submitStory = function(req, res) {
 	var storyName = req.body.storyName;
 	var firstChapterName = req.body.firstChapter;
 	var storyText = req.body.storyPane;
+	storyText = storyText.replace(/\r\n|\n/gm, '');
+	//console.log(storyText);
 
 	if (!storyName || !firstChapterName || ! storyText) {
 		return res.render('writestory', {title: 'Create a new Story', error: 'Make sure you have a title, a prolouge title and ACTUAL WORDS IN THE BOX'});
@@ -214,27 +260,26 @@ exports.submitStory = function(req, res) {
 
 		dbReader.readerModel.findOne({readerName: req.session.reader.name}, function (error, reader) {
 			if (error) {
-				return res.render('writestory', {title: 'Createa new Story', reader: req.session.reader, error: 'Database error. Probably nothing, try again later.', text: storyText});
+				return res.render('writestory', {title: 'Create a new Story', reader: req.session.reader, error: 'Database error. Probably nothing, try again later.', text: storyText});
 			}
 
 			if (reader) {
-				var prolougeChapter = new dbStory.chapterModel({title: firstChapterName, author: reader.id, text: storyText});
+
+				var prolougeChapter = new dbStory.chapterModel({title: firstChapterName, canon: true, author: reader.id, text: storyText, chapterNumber: 0});
 
 				prolougeChapter.save(function (error) {
 					if (error) {
 						console.log(error);
-						return res.render('writestory', {title: 'Createa new Story', reader: req.session.reader, error: 'Database error. Probably nothing, try again later.', text: storyText});
+						return res.render('writestory', {title: 'Create a new Story', reader: req.session.reader, error: 'Database error. Probably nothing, try again later.', text: storyText});
 					}
 					var newStory = new dbStory.storyModel({name: storyName, chapters: prolougeChapter.id});
 
 					newStory.save(function(error) {
 						if (error) {
 							console.log(error);
-							return res.render('writestory', {title: 'Createa new Story', reader: req.session.reader, error: 'Database error. Probably nothing, try again later.', text: storyText});
+							return res.render('writestory', {title: 'Create a new Story', reader: req.session.reader, error: 'Database error. Probably nothing, try again later.', text: storyText});
 						}
 
-						//Can i set params??
-						//res.render('readStory', )
 						console.log('/read/' + newStory.name);
 						return res.redirect('/read/' + newStory.name);
 					});
@@ -244,15 +289,30 @@ exports.submitStory = function(req, res) {
 			}
 		});
 	});
-}
+};
 
 exports.writeChapter = function(req, res) {
-	console.log(req);
-	res.render('writechapter', {title: 'Write Chapter for ' + req.params.story, reader: req.session.reader});
+	
+	dbStory.storyModel.findOne({name: req.params.story}, function(error, story) {
+		if (error) {
+			return res.render('writestory', {title: 'Write Chapter for ' + req.params.story, reader: req.session.reader, error: 'Database error. Probably nothing, try again later.', text: storyText});
+		}
+
+		if (!story) {
+			return res.render('writestory', {title: 'Write Chapter for ' + req.params.story, reader: req.session.reader, error: 'This story doesn\'t exist. You Could write it! Right now!'});
+		}
+
+		var currentNumChapters = parseInt(story.chapters.length);
+		currentNumChapters++;
+		res.render('writechapter', {storyTitle: req.params.story, chapterIndex: currentNumChapters, reader: req.session.reader, storyTitle: req.params.story});
+	});
 };
 
 exports.submitChapter = function(req, res) {
+	var newChapterNumber = req.body.chapterNumber;
 	var data = req.body.chapterPane;
+	console.log("BOYEEEEEE");
+	console.log(data);
 	res.render('index', {title: data, reader: req.session.reader});
 };
 
