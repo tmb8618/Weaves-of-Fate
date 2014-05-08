@@ -5,7 +5,7 @@
 
 var express = require('express');
 var routes = require('./routes');
-var user = require('./routes/user');
+//var user = require('./routes/user');
 var http = require('http');
 var path = require('path');
 var bcrypt = require('bcrypt');
@@ -67,27 +67,26 @@ if ('development' == app.get('env')) {
 // app.get(this is the part of the url it looks for,
 //			this is the function it looks for in the filepath);
 app.get('/', routes.index);
-app.get('/users', user.list);
 //app.get('/helloworld', routes.helloworld);
-app.get('/stories', routes.stories);
-app.get('/newreader', routes.newReaderPage);
-app.get('/signin', routes.signInPage);
-app.get('/reader/:readerName', routes.accountPage);
-app.get('/writestory', routes.writeStory);
-app.get('/write/:story/:chapterNumber', routes.writeChapter);
-app.get('/read/:story', routes.readStory);
-app.get('/read/:story/', routes.readStory);
-app.get('/read/:story/:chapterNumber', routes.readStory);
-app.get('/admin', routes.adminTools);
+app.get('/stories', routes.Story.stories);
+app.get('/newreader', routes.Reader.newReaderPage);
+app.get('/signin', routes.Reader.signInPage);
+app.get('/reader/:readerName', routes.Reader.accountPage);
+app.get('/writestory', routes.Story.writeStory);
+app.get('/write/:story/:chapterNumber', routes.Story.writeChapter);
+app.get('/read/:story', routes.Story.readStory);
+app.get('/read/:story/', routes.Story.readStory);
+app.get('/read/:story/:chapterNumber', routes.Story.readStory);
+app.get('/admin', routes.Admin.adminTools);
 //app.get('/read/:story/chapters/:chapterNumber/:chapterTitle', routes.readChapter);
-app.post('/');
-app.post('/submitStory', routes.submitStory);
-app.post('/createReader', routes.createReader);
-app.post('/readerSignIn', routes.signIn);
-app.post('/submitChapter/:story', routes.submitChapter);
-app.post('/findReader', routes.AJAXfindReader);
-app.post('/changeNickname/:readerName/:newNickname', routes.AJAXforceChangeNickname);
-app.post('/changeLevel/:readerName/:newLevel', routes.AJAXforceChangeLevel);
+//app.post('/');
+app.post('/submitStory', routes.Story.submitStory);
+app.post('/createReader', routes.Reader.createReader);
+app.post('/readerSignIn', routes.Reader.signIn);
+app.post('/submitChapter/:story', routes.Story.submitChapter);
+app.post('/findReader', routes.Admin.AJAXfindReader);
+app.post('/changeNickname/:readerName/:newNickname', routes.Admin.AJAXforceChangeNickname);
+app.post('/changeLevel/:readerName/:newLevel', routes.Admin.AJAXforceChangeLevel);
 
 
 //This hooks up the database to any and all scripts.

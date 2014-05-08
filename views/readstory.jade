@@ -21,19 +21,44 @@ unless story
 
 				var nextChapterURL = '/read/#{storyName}/' + nextChapter;
 				document.querySelector('#linkToNextChapter').href = nextChapterURL;
+
+				var list = !{chapterList};
+
+				var listElement = document.querySelector('#chapterList');
+
+				list.forEach(function(oneEle, index) {
+					var oneChapt = document.createElement('li');
+					//var spacerSpan = document.createElement('span');
+					//spacerSpan.Class = 'divideSmall';
+					oneChapt.innerHTML = oneEle.chaptNum;
+					var chaptLink = document.createElement('a');
+					chaptLink.href = '/read/#{storyName}/' + oneEle.chaptNum;
+					chaptLink.className = 'divideText';
+					chaptLink.innerHTML = oneEle.chaptTitle;
+					console.log(chaptLink.innerHTML);
+					//oneChapt.appendChild(spacerSpan);
+					oneChapt.appendChild(chaptLink);
+					
+					listElement.appendChild(oneChapt);
+				});
 			});
 
 	block append content
-		if(chapterIndex)
-			h1 #{chapterIndex}
-			h2 #{chapterTitle}
-		else
-			h1 #{chapterTitle}
-		if(error)
-			p #{error}
-		section(id='contentGoesHere')
-		span
-			a#linkToNextChapter NEXT CHAPTER
-				img(src='/images/wot-temp.jpg')
+		br
+		br
+		div#chapterListBox.left.sidebar
+			ul#chapterList
+		div#storyText.left.notSidebarContent
+			if(chapterIndex)
+				h1 #{chapterIndex}
+				h2 #{chapterTitle}
+			else
+				h1 #{chapterTitle}
+			if(error)
+				p #{error}
+			section(id='contentGoesHere')
+			span
+				a#linkToNextChapter NEXT CHAPTER
+					img(src='/images/wot-temp.jpg')
 
 	div#sidebar

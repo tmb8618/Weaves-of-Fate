@@ -6,9 +6,16 @@
 	font-size: 350%;
 }
 
+html {
+	height: 100%;
+	width: 100%;
+}
+
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  height: 100%;
+  width: 100%;
 }
 
 a {
@@ -58,4 +65,21 @@ a {
 	border-left-width: 5px;
 	border-left-color: '#ADACAD';*/
 	border-bottom: solid 2px #DBDBDB;
+}
+
+.sidebar {
+	width: 20%;
+	height: 100%;
+}
+
+.notSidebarContent {
+	width: 60%;
+}
+
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
 }

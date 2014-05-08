@@ -9,15 +9,15 @@ html(lang="en")
 		block header
 			
 	body
-		div
+		div.inline
 			a.textLeft(id='homeLink', href='/') &#9733;
 			if(reader)
 				span.divideText.textLeft Welcome 
 					a(href='/reader/#{reader.name}') #{reader.nickname}
 			else
-				span.divideText
+				span.divideText.inline
 					a(href='/signin') Sign In
-				span.divideText
+				span.divideText.inline
 					a(href='/newreader') New Account
 			span.textRight
 				if (reader)

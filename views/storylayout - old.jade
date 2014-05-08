@@ -2,6 +2,8 @@ doctype html
 html(lang="en")
 	head
 		script(src='/javascripts/jquery.js')
+		// link(rel='stylesheet', href='bootstrap/css/bootstrap.min.css')
+		// link(rel='stylesheet', href='stylesheets/style.css')
 		link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
 		link(rel='stylesheet', href='/stylesheets/style.css')
 		title #{storyName} #{ChapterIndex} - #{ChapterTitle}
@@ -10,18 +12,14 @@ html(lang="en")
 			
 	body
 		div.inline
-			a.textLeft(id='homeLink', href='/') &#9733;
+			a.inline(id='homeLink', href='/') &#9733;
 			if(reader)
-				span.divideText.textLeft Welcome 
+				p Welcome 
 					a(href='/reader/#{reader.name}') #{reader.nickname}
 			else
-				span.divideText.inline
-					a(href='/signin') Sign In
-				span.divideText.inline
-					a(href='/newreader') New Account
-			span.textRight
-				if (reader)
-					if(reader.level >= 4)
-						span You're an admin! Go here to 
-							a(href='/admin') Adminstrate
+				div.row
+					div.col-md-1
+						a(href='/signin') Sign In
+					div.col-md-1
+						a(href='/newreader') New Account
 		block content
