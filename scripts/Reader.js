@@ -27,6 +27,10 @@ var ReaderSchema = new mongoose.Schema(
 			'default': Date.now
 		},
 		level: Number,
+		banned: {
+			type: Boolean,
+			'default': false
+		},
 		storyProgress: {}
 	}
 );
@@ -34,7 +38,8 @@ var ReaderSchema = new mongoose.Schema(
 ReaderSchema.methods.readerData = function() {
 	return {
 		name: this.readerName,
-		nickname: this.readerNickname
+		nickname: this.readerNickname,
+		level: this.level
 	};
 }
 

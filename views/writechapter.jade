@@ -43,9 +43,9 @@ block content
 				div#dropzoneFooter
 					img(src='/images/shield-temp.png', name='footerImage', id='footerImage')
 		input(type='submit', value='Send')
+
 	script.
 		
-
 		window.addEventListener('load', function(e) {
 			console.log('loaded and setting');
 			document.querySelector('#postForm').action = '/submitChapter/#{storyTitle}';

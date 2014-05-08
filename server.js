@@ -78,15 +78,16 @@ app.get('/write/:story/:chapterNumber', routes.writeChapter);
 app.get('/read/:story', routes.readStory);
 app.get('/read/:story/', routes.readStory);
 app.get('/read/:story/:chapterNumber', routes.readStory);
-app.get('/read/:story/:chapterNumber/', routes.readStory);
+app.get('/admin', routes.adminTools);
 //app.get('/read/:story/chapters/:chapterNumber/:chapterTitle', routes.readChapter);
 app.post('/');
 app.post('/submitStory', routes.submitStory);
 app.post('/createReader', routes.createReader);
 app.post('/readerSignIn', routes.signIn);
 app.post('/submitChapter/:story', routes.submitChapter);
-app.post('/changeNickname', routes.changeNickname);
-
+app.post('/findReader', routes.AJAXfindReader);
+app.post('/changeNickname/:readerName/:newNickname', routes.AJAXforceChangeNickname);
+app.post('/changeLevel/:readerName/:newLevel', routes.AJAXforceChangeLevel);
 
 
 //This hooks up the database to any and all scripts.
@@ -95,5 +96,5 @@ exports.mongoose = mongoose;
 //exports.knightquest = knightQuestStory;
 
 app.listen(port, ipaddr, function(){
-  console.log('Express server listening on port ' + app.get('port'));
+	console.log('Express server listening on port ' + app.get('port'));
 });

@@ -27,6 +27,7 @@ var ChapterSchema = new mongoose.Schema(
 	{
 		relatedStory: mongoose.Schema.Types.ObjectId,
 		canon: Boolean,
+		votes: Number,
 		title: String,
 		author: {
 			type: mongoose.Schema.Types.ObjectId,

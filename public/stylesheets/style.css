@@ -27,3 +27,35 @@ a {
 	height: 2px;
 	padding: 0px;
 }
+
+.divideText {
+	margin-left: 2em;
+}
+
+.divideSmall {
+	margin-left: 1em;
+}
+
+.inline {
+	display: inline;
+}
+
+.textRight {
+	text-align: right;
+}
+
+.textLeft {
+	text-align: left;
+}
+
+.textSize {
+
+}
+
+.slickBox {
+	border-left: solid 5px #ADACAD;
+	/*border-left-style: solid;
+	border-left-width: 5px;
+	border-left-color: '#ADACAD';*/
+	border-bottom: solid 2px #DBDBDB;
+}
