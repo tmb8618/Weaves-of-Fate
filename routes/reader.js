@@ -51,7 +51,7 @@ exports.signIn = function (req, res) {
 	var pass = req.body.password;
 
 	if (!user || !pass) {
-		return res.render('signin', {title: 'Sign In', error: 'Gotta fill out all the fields to sign in.', reader: req.session.reader})
+		return res.render('signin', {title: 'Sign In', error: 'Gotta fill out all the fields to sign in.', reader: req.session.reader});
 	}
 	
 	dbReader.readerModel.findOne({readerName: user}, function (error, reader) {
@@ -64,13 +64,18 @@ exports.signIn = function (req, res) {
 			
 			req.session.reader = reader.readerData();
 
-			res.render('index', {title: 'Weaves of Fate', reader: req.session.reader} );
+			res.redirect('/');
 		}
 		else {
 			res.render('signin', {title: 'SignIn', error: 'Wrong password.', reader: req.session.reader});
 		}
 	});
 };
+
+exports.logOut = function(req, res) {
+	req.session.reader = undefined;
+	res.redirect('/');
+}
 
 exports.accountPage = function (req, res) {
 

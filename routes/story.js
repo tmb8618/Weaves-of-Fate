@@ -172,7 +172,7 @@ exports.submitStory = function(req, res) {
 
 exports.writeChapter = function(req, res) {
 	
-	dbStory.storyModel.findOne({name: req.params.story}, function(error, story) {
+	dbStory.storyModel.findOne({name: req.params.story}, function (error, story) {
 		if (error) {
 			return res.render('writestory', {title: 'Write Chapter for ' + req.params.story, reader: req.session.reader, error: 'Database error. Probably nothing, try again later.', text: storyText});
 		}
@@ -188,10 +188,59 @@ exports.writeChapter = function(req, res) {
 };
 
 exports.submitChapter = function(req, res) {
-	var newChapterNumber = req.body.chapterNumber;
-	var data = req.body.chapterPane;
+	var newChapterName = req.body.chapterName;
+	var textData = req.body.chapterPane;
+	var relatedStory = req.params.story;
+	var nextChapterNumber = req.params.chapterNumber;
 	console.log("BOYEEEEEE");
 	console.log(data);
+
+	db.storyModel.findOne({name: relatedStory}, function (error, story) {
+		if (error) {
+			return res.render('writeChapter', {error: 'Database screwed up. Just wait a few minutes, it\'ll be fine. Probably.'});
+		}
+
+		if (!story) {
+			return res.render('writeChapter', {error: 'The story you\'re writing for doesnt exist??'});
+		}
+
+		db.readerModel.findOne({readerName: req.session.reader.name}, function (error, reader) {
+			if (error) {
+				return res.render('writeChapter', {error: 'Database screwed up. Just wait a few minutes, it\'ll be fine. Probably.'});
+			}
+
+			if (!reader) {
+				return res.render('writeChapter', {error: 'Uh oh. Database says you don\'t exist. Call help? Or your a mad hacker?'});
+			}
+
+			db.chapterModel.findOne({title: newChapterName}, function (error, chapterExists) {
+				if (error) {
+					return res.render('writeChapter', {error: 'Database screwed up. Just wait a few minutes, it\'ll be fine. Probably.'});
+				}
+
+				if (chapterExists) {
+					return res.render('writeChapter', {error: 'A chapter with the same name already exists. Give it a different name.'});
+				}
+			});
+
+			var anotherChapter = new dbStory.chapterModel({title: newChapterName, author: reader.id, canon: false, text: textData, chapterNumber: nextChapterNumber});
+
+			anotherChapter.save(function (error) {
+				if (error) {
+					return res.render('writeChapter', {error: 'Database screwed up. Just wait a few minutes, it\'ll be fine. Probably.'});
+				}
+
+				story.update({$inc: {chapters: anotherChapter.id}}, {}, function (error) {
+					if (error) {
+						return res.render('writeChapter', {error: 'Database screwed up. Just wait a few minutes, it\'ll be fine. Probably.'});
+					}
+
+					res.redirect('/');
+				});
+			});
+		});
+	});
+
 	res.render('index', {title: data, reader: req.session.reader});
 };
 

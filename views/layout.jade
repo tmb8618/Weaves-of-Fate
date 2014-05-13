@@ -14,6 +14,8 @@ html(lang="en")
 			if(reader)
 				span.divideText.textLeft Welcome 
 					a(href='/reader/#{reader.name}') #{reader.nickname}
+				span.divideText.textLeft
+					a(href='/logout') End the chapter, but not the story
 			else
 				span.divideText.inline
 					a(href='/signin') Sign In

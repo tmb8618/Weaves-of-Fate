@@ -5,7 +5,7 @@ block header
 
 block content
 	h1 Write <u>#{storyTitle}</u>: Chapter #{chapterIndex}
-	form#postForm(method='POST')
+	form#postForm(method='POST', action='/submitChapter/#{storyTitle}')
 		div
 			div.largerReadingFont <strong>PRO TIPS FOR WRITING FOR THIS SITE</strong>
 			br

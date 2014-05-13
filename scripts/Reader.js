@@ -31,6 +31,7 @@ var ReaderSchema = new mongoose.Schema(
 			type: Boolean,
 			'default': false
 		},
+		votedOn: [{type: mongoose.Schema.Types.ObjectId, ref: 'Voted Chapters'}],
 		storyProgress: {}
 	}
 );
