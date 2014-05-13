@@ -5,7 +5,7 @@ block header
 
 block content
 	h1 Write <u>#{storyTitle}</u>: Chapter #{chapterIndex}
-	form#postForm(method='POST', action='/submitChapter/#{storyTitle}')
+	form#postForm(method='POST')
 		div
 			div.largerReadingFont <strong>PRO TIPS FOR WRITING FOR THIS SITE</strong>
 			br
@@ -32,6 +32,9 @@ block content
 				strong REMEBER THIS YOU RUBE. THAT'S RIGHT YOU.
 				p You gotta find some way to put some space in between the lines of text. Like, one pixel or so. Or change the background color. Whatever you gotta do to seperate the text out a bit. It looks awful.
 		br
+		if(error)
+			#{error}
+
 		p Chapter Title 
 			input(type='text', name='chapterName')
 		textarea(name='chapterPane', id='chapterPane', rows='50', cols='80')
@@ -48,7 +51,7 @@ block content
 		
 		window.addEventListener('load', function(e) {
 			console.log('loaded and setting');
-			document.querySelector('#postForm').action = '/submitChapter/#{storyTitle}';
+			document.querySelector('#postForm').action = '/submitChapter/#{storyTitle}/#{chapterIndex}';
 		});
 
 		CKEDITOR.replace('chapterPane');

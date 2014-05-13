@@ -17,10 +17,13 @@ unless story
 				
 				document.querySelector('#contentGoesHere').innerHTML = '!{chapterText}';
 
-				var nextChapter = #{chapterIndex} + 1;
+				var nextChapter = #{chapterIndex};
+				nextChapter++;
 
 				var nextChapterURL = '/read/#{storyName}/' + nextChapter;
 				document.querySelector('#linkToNextChapter').href = nextChapterURL;
+				var nonCanonURL = '/read/#{storyName}/noncanon/' + nextChapter;
+				document.querySelector('#linkToNonCanon').href = nonCanonURL;
 
 				var list = !{chapterList};
 
@@ -60,5 +63,9 @@ unless story
 			span
 				a#linkToNextChapter NEXT CHAPTER
 					img(src='/images/wot-temp.jpg')
+			div
+				a#linkToNonCanon Other Chapters
+
+
 
 	div#sidebar

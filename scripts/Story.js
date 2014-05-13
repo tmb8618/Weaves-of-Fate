@@ -27,7 +27,10 @@ var ChapterSchema = new mongoose.Schema(
 	{
 		relatedStory: mongoose.Schema.Types.ObjectId,
 		canon: Boolean,
-		votes: Number,
+		votes: {
+			type: Number,
+			'default': 0
+		},
 		title: String,
 		author: {
 			type: mongoose.Schema.Types.ObjectId,
@@ -42,7 +45,7 @@ var ChapterSchema = new mongoose.Schema(
 			'default': Date.now
 		},
 		publishedDate: {
-			type: Date,
+			type: Date
 		},
 	}
 );
