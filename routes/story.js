@@ -17,14 +17,70 @@ exports.stories = function(req, res) {
 	});
 };
 
-
-
 // REDO THIS WHOLE FUNCTION
-exports.readStory = function (req, res) {
+exports.readStory = function(req, res) {
 
-	var chapterNumInt = parseInt(req.params.chapterNumber);
+	var chapterNumInt;
+
+	if (req.params.chapterNumber) {
+		chapterNumInt = parseInt(req.params.chapterNumber);
+	} else {
+		chapterNumInt = 0;
+	}
+
+	console.log(chapterNumInt);
 
 	dbStory.storyModel.findOne({name: req.params.story}, function (error, story) {
+		if (error) {
+			console.log('db error, story');
+		}
+
+		if (story) {
+
+			dbStory.chapterModel.findOne({relatedStory: story.id, chapterNumber: chapterNumInt, canon: true}, function (error, readingChapter) {
+				if (error) {
+					console.log('db error, chapter');
+				}
+
+				//console.log('readingChapter');
+				//console.log(readingChapter);
+
+				if (readingChapter) {
+					dbStory.chapterModel.find({relatedStory: story.id, canon: true}, function (error, chapters) {
+						if (error) {
+							console.log('db error, chapter');
+						}
+
+						//console.log('allChapters');
+						//console.log(chapters);
+
+						var slimChapters = [{}];
+
+
+						chapters.forEach(function (oneChapt, a) {
+							slimChapters[a].chaptNum = oneChapt.chapterNumber;
+							slimChapters[a].chaptTitle = oneChapt.title;
+						});
+
+						//console.log('slimChapters');
+						//console.log(slimChapters);
+
+						return res.render('readstory', {reader: req.session.reader, storyName: req.params.story, chapterIndex: chapterNumInt, chapterTitle: readingChapter.title, chapterText: readingChapter.text, chapterList: JSON.stringify(slimChapters)});
+
+						//console.log('heres my dumb ass');
+					});
+				} else {
+					//console.log('check it');
+					return res.redirect('/read/' + req.params.story + '/noncanon/' + chapterNumInt);
+				}
+			});
+		}
+	});
+
+	
+};
+
+	/*dbStory.storyModel.findOne({name: req.params.story}, function (error, story) {
 		if (error) {
 			return res.render('stories', {title: 'Current Weaves', reader: req.session.reader, error: 'A database error. Try again. Or try again in an hour or so. Whenever. But whatever it is, its not your fault.'});
 		}
@@ -47,7 +103,7 @@ exports.readStory = function (req, res) {
 
 							console.log(chapters);
 
-							chapters.forEach(function(chapt, index) {
+							chapters.forEach(function (chapt, index) {
 								dbStory.chapterModel.findById(chapt, function(error, oneChapt) {
 									if (error) {
 										return res.render('stories', {title: 'Current Weaves', reader: req.session.reader, error: 'A database error. Try again. Or try again in an hour or so. Whenever. But whatever it is, its not your fault.'});
@@ -119,10 +175,7 @@ exports.readStory = function (req, res) {
 				
 			}
 		}
-	});
-
-	//res.render('readstory', {title: 'No Story', error: 'This story doesn\'t exist.', reader: req.session.reader});
-};
+	});*/
 
 exports.writeStory = function(req, res) {
 	res.render('writestory', {title:'Create a new Story', reader: req.session.reader});

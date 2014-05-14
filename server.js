@@ -75,9 +75,9 @@ app.get('/reader/:readerName', routes.Reader.accountPage);
 app.get('/writestory', routes.Story.writeStory);
 app.get('/write/:story/:chapterNumber', routes.Story.writeChapter);
 app.get('/read/:story', routes.Story.readStory); //FIX??
+app.get('/read/:story/:chapterNumber', routes.Story.readStory);
 app.get('/read/:story/noncanon/:chapterNumber', routes.Story.chapterSubmissions); //COMPLETE THIS
-app.get('/read/:story/:chapterNumber/noncanon/:chapterTitle', routes.Story.nonCanonChapter); //COMPLETE THIS
-app.get('/read/:story/:chapterNumber', routes.Story.readStory); 
+app.get('/read/:story/noncanon/:chapterNumber/:chapterTitle', routes.Story.nonCanonChapter); //COMPLETE THIS
 app.get('/admin', routes.Admin.adminTools);
 app.post('/submitStory', routes.Story.submitStory);
 app.post('/createReader', routes.Reader.createReader);
