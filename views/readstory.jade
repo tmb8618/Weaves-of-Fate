@@ -18,12 +18,16 @@ unless story
 				document.querySelector('#contentGoesHere').innerHTML = '!{chapterText}';
 
 				var nextChapter = #{chapterIndex};
-				nextChapter++;
 
-				var nextChapterURL = '/read/#{storyName}/' + nextChapter;
+				var nextChapterURL = '/read/#{storyName}/' + (nextChapter + 1);
 				document.querySelector('#linkToNextChapter').href = nextChapterURL;
-				var nonCanonURL = '/read/#{storyName}/noncanon/' + nextChapter;
-				document.querySelector('#linkToNonCanon').href = nonCanonURL;
+
+				if (nextChapter != 0) {
+					var nonCanonURL = '/read/#{storyName}/noncanon/' + nextChapter;
+					document.querySelector('#linkToNonCanon').href = nonCanonURL;
+				} else {
+					document.querySelector('#linkToNonCanon').innerHTML = '';
+				}
 
 				var list = !{chapterList};
 

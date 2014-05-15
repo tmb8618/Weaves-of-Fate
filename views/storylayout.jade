@@ -4,7 +4,10 @@ html(lang="en")
 		script(src='/javascripts/jquery.js')
 		link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
 		link(rel='stylesheet', href='/stylesheets/style.css')
-		title #{storyName} #{ChapterIndex} - #{ChapterTitle}
+		if error
+			title #{storyName} #{ChapterIndex} - #{ChapterTitle}
+		else
+			title #{title}
 		
 		block header
 			

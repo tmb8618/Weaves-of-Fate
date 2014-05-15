@@ -5,56 +5,61 @@ block header
 
 block content
 	h1 Write <u>#{storyTitle}</u>: Chapter #{chapterIndex}
-	form#postForm(method='POST')
-		div
-			div.largerReadingFont <strong>PRO TIPS FOR WRITING FOR THIS SITE</strong>
+	
+	if(error)
+		div #{error}
+	else
+		form#postForm(method='POST')
+			div
+				div.largerReadingFont <strong>PRO TIPS FOR WRITING FOR THIS SITE</strong>
+				br
+				span.tabbed 
+					strong READ THE THE STORY
+					p Make sure you know what is happening, and who's in it. I'm sure I don't truly need to tell you writers this, but hey, Its good advice.
+				div.adviceBuffer
+
+				span.tabbed 
+					strong CHAPTER TITLE
+					p I\'m no professional writer...hell, I've basically written nothing at all. But as the designer of this site and system, I can say that people will not want to pre-read a chapter with a boring title. A title should foreshadow events yet remain vague to their meaning or outcome. Actually, now that I think of it, the ability to flag stories to have \'no chapter titles\' or \'chapter titles are character perspective names\'' would be a great thing. One thing at a time, and at least this idea is now recorded. Anyways, try to avoid attention grabbing titles, or at the very least, keep with the theme of the story. This site is going to be really, really easy to troll, but the idea is that even one-off trolling a story doesn\'t mean the story has to stop. But yes, attention grabbing titles might just end up censored, or disqualified. I\'ll have to work something out if it ever comes to that. You don't want to give me more work, now do you?
+				div.adviceBuffer
+
+				span.tabbed 
+					strong TRY NOT TO THINK ABOUT WHAT COMES NEXT
+					p I guarantee your setup for next chapter is going to go right over the head of the next dozen writers. This is the main psychological(?) drawback of a story written like this, but remember: there is no protection the artist\'s creations, intentions or ideas. You don\'t own what you write, and your contribution will probably be derailed in the very next chapter. Leave your portion open for more, or shake things up from the last chapter to provoke more thought from the other writers. I want to see cliffhangers, major story shakeups, and if everything works out, advanced writer jargon like...flashbacks? Maybe some foreshadowing??
+				div.adviceBuffer
+
+				span.tabbed 
+					strong THIS IS NOT AN RP FORUM
+					p I mean, yes, you <i>could</i> game this system to make this act like an RP board. But frankly, there are better, more refined places to do that.
+
+				span.tabbed
+					strong REMEBER THIS YOU RUBE. THAT'S RIGHT YOU.
+					p You gotta find some way to put some space in between the lines of text. Like, one pixel or so. Or change the background color. Whatever you gotta do to seperate the text out a bit. It looks awful.
 			br
-			span.tabbed 
-				strong READ THE THE STORY
-				p Make sure you know what is happening, and who's in it. I'm sure I don't truly need to tell you writers this, but hey, Its good advice.
-			div.adviceBuffer
+			
 
-			span.tabbed 
-				strong CHAPTER TITLE
-				p I\'m no professional writer...hell, I've basically written nothing at all. But as the designer of this site and system, I can say that people will not want to pre-read a chapter with a boring title. A title should foreshadow events yet remain vague to their meaning or outcome. Actually, now that I think of it, the ability to flag stories to have \'no chapter titles\' or \'chapter titles are character perspective names\'' would be a great thing. One thing at a time, and at least this idea is now recorded. Anyways, try to avoid attention grabbing titles, or at the very least, keep with the theme of the story. This site is going to be really, really easy to troll, but the idea is that even one-off trolling a story doesn\'t mean the story has to stop. But yes, attention grabbing titles might just end up censored, or disqualified. I\'ll have to work something out if it ever comes to that. You don't want to give me more work, now do you?
-			div.adviceBuffer
-
-			span.tabbed 
-				strong TRY NOT TO THINK ABOUT WHAT COMES NEXT
-				p I guarantee your setup for next chapter is going to go right over the head of the next dozen writers. This is the main psychological(?) drawback of a story written like this, but remember: there is no protection the artist\'s creations, intentions or ideas. You don\'t own what you write, and your contribution will probably be derailed in the very next chapter. Leave your portion open for more, or shake things up from the last chapter to provoke more thought from the other writers. I want to see cliffhangers, major story shakeups, and if everything works out, advanced writer jargon like...flashbacks? Maybe some foreshadowing??
-			div.adviceBuffer
-
-			span.tabbed 
-				strong THIS IS NOT AN RP FORUM
-				p I mean, yes, you <i>could</i> game this system to make this act like an RP board. But frankly, there are better, more refined places to do that.
-
-			span.tabbed
-				strong REMEBER THIS YOU RUBE. THAT'S RIGHT YOU.
-				p You gotta find some way to put some space in between the lines of text. Like, one pixel or so. Or change the background color. Whatever you gotta do to seperate the text out a bit. It looks awful.
-		br
-		if(error)
-			#{error}
-
-		p Chapter Title 
-			input(type='text', name='chapterName')
-		textarea(name='chapterPane', id='chapterPane', rows='50', cols='80')
-		div.row
-			div.col-md-6 Upload a Header Image
-				div#dropzoneHeader
-					img(src='/images/sword-temp.png', name='headerImage', id='headerImage')
-			div.col-md-6 Upload a Footer Image
-				div#dropzoneFooter
-					img(src='/images/shield-temp.png', name='footerImage', id='footerImage')
-		input(type='submit', value='Send')
+			p Chapter Title 
+				input(type='text', name='chapterName')
+			textarea(name='chapterPane', id='chapterPane', rows='50', cols='80')
+			div.row
+				div.col-md-6 Upload a Header Image
+					div#dropzoneHeader
+						img(src='/images/sword-temp.png', name='headerImage', id='headerImage')
+				div.col-md-6 Upload a Footer Image
+					div#dropzoneFooter
+						img(src='/images/shield-temp.png', name='footerImage', id='footerImage')
+			input(type='submit', value='Send')
 
 	script.
-		
 		window.addEventListener('load', function(e) {
-			console.log('loaded and setting');
-			document.querySelector('#postForm').action = '/submitChapter/#{storyTitle}/#{chapterIndex}';
+			var eh = #{error} + '';
+			console.log(eh);
+			if (!eh) {
+				console.log('loaded and setting');
+				document.querySelector('#postForm').action = '/submitChapter/#{storyTitle}/#{chapterIndex}';
+				CKEDITOR.replace('chapterPane');
+			}
 		});
-
-		CKEDITOR.replace('chapterPane');
 
 		/*document.querySelector('#dropzoneHeader').addEventListener('dragover', function(e) {
 			e.stopPropagation();

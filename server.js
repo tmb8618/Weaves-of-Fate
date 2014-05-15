@@ -5,7 +5,6 @@
 
 var express = require('express');
 var routes = require('./routes');
-//var user = require('./routes/user');
 var http = require('http');
 var path = require('path');
 var bcrypt = require('bcrypt');
@@ -24,6 +23,7 @@ else {
 
 var MemoryStore = express.session.MemoryStore;
 var sessionStore = new MemoryStore();
+var MongoStore = require('connect-mongo')(express);
 
 var app = express();
 var port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
@@ -49,6 +49,12 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
+/*app.use(express.session({
+	secret: '1n73n53_R34d1ng_4c710n',
+	store: new MongoStore({
+		db: ''
+	})
+}));*/
 app.use(express.session({
 	key: 'reader.sid',
 	secret: '1n73n53_R34d1ng_4c710n',

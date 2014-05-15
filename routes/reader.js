@@ -24,11 +24,11 @@ exports.createReader = function(req, res) {
 			return res.render('newreader', {title: 'New Account Sign Up', reader: req.session.reader, error: 'This username already exists! Gotta choose a new one.'});
 		}
 
-		console.log(password);
+		//console.log(password);
 
 		var newReader = new dbReader.readerModel({readerName: username, readerPassword: password, readerNickname: nickname, level: 2});
 
-		console.log(newReader);
+		//console.log(newReader);
 
 		newReader.save(function (err) {
 			if (err) {
@@ -37,12 +37,15 @@ exports.createReader = function(req, res) {
 			}
 		});
 
+		req.session.reader = newReader.readerData();
+
 		res.render('index', {title: 'Weaves of Fate', reader: req.session.reader});
 
 	});
 };
 
 exports.signInPage = function(req, res) {
+	console.log(req.session.redirectedFrom);
 	res.render('signin', {title: 'Sign In', reader: req.session.reader});
 };
 
@@ -64,6 +67,9 @@ exports.signIn = function (req, res) {
 			
 			req.session.reader = reader.readerData();
 
+			if(req.session.redirectedFrom) {
+
+			}
 			res.redirect('/');
 		}
 		else {

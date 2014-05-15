@@ -14,6 +14,7 @@ var StorySchema = new mongoose.Schema(
 		cover: String,
 		//otherArt: [/*images*/],
 		chapters: [{type: mongoose.Schema.Types.ObjectId, ref: 'Chapter'}],
+		canonChapters: Number,
 		createdDate: {
 			type: Date,
 			'default': Date.now
@@ -38,7 +39,7 @@ var ChapterSchema = new mongoose.Schema(
 		},
 		chapterNumber: Number,
 		//headerImage: /*image*/,
-		text: [String],
+		text: String,
 		//footerImage: /*Image*/
 		createdDate: {
 			type: Date,

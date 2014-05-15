@@ -28,7 +28,7 @@ exports.readStory = function(req, res) {
 		chapterNumInt = 0;
 	}
 
-	console.log(chapterNumInt);
+	//console.log(chapterNumInt);
 
 	dbStory.storyModel.findOne({name: req.params.story}, function (error, story) {
 		if (error) {
@@ -56,7 +56,6 @@ exports.readStory = function(req, res) {
 
 						var slimChapters = [{}];
 
-
 						chapters.forEach(function (oneChapt, a) {
 							slimChapters[a].chaptNum = oneChapt.chapterNumber;
 							slimChapters[a].chaptTitle = oneChapt.title;
@@ -70,14 +69,11 @@ exports.readStory = function(req, res) {
 						//console.log('heres my dumb ass');
 					});
 				} else {
-					//console.log('check it');
 					return res.redirect('/read/' + req.params.story + '/noncanon/' + chapterNumInt);
 				}
 			});
 		}
 	});
-
-	
 };
 
 	/*dbStory.storyModel.findOne({name: req.params.story}, function (error, story) {
@@ -178,7 +174,14 @@ exports.readStory = function(req, res) {
 	});*/
 
 exports.writeStory = function(req, res) {
-	res.render('writestory', {title:'Create a new Story', reader: req.session.reader});
+
+	if (req.session.reader) {
+		res.render('writestory', {title:'Create a new Story', reader: req.session.reader});
+	} else {
+		//res.session.redirectedFrom = req.originalUrl;
+		//console.log(req.session.redirectedFrom);
+		res.redirect('signin');
+	}
 };
 
 exports.submitStory = function(req, res) {
@@ -209,7 +212,7 @@ exports.submitStory = function(req, res) {
 
 		if (reader) {
 
-			var newStory = new dbStory.storyModel({name: storyName});
+			var newStory = new dbStory.storyModel({name: storyName, canonChapters: 1});
 
 			newStory.save(function (error, savedStory) {
 				if (error) {
@@ -262,7 +265,8 @@ exports.submitStory = function(req, res) {
 };
 
 exports.writeChapter = function(req, res) {
-	
+	var newChapterWrite = parseInt(req.params.chapterNumber);
+
 	dbStory.storyModel.findOne({name: req.params.story}, function (error, story) {
 		if (error) {
 			return res.render('writestory', {title: 'Write Chapter for ' + req.params.story, reader: req.session.reader, error: 'Database error. Probably nothing, try again later.', text: storyText});
@@ -272,8 +276,24 @@ exports.writeChapter = function(req, res) {
 			return res.render('writestory', {title: 'Write Chapter for ' + req.params.story, reader: req.session.reader, error: 'This story doesn\'t exist. You could write it! Right now!'});
 		}
 
-		var currentNumChapters = parseInt(story.chapters.length);
-		res.render('writechapter', {storyTitle: req.params.story, chapterIndex: currentNumChapters, reader: req.session.reader, storyTitle: req.params.story});
+		console.log(newChapterWrite);
+		console.log(story.canonChapters);
+
+		if (newChapterWrite == story.canonChapters) {
+			if (req.session.reader) {
+				return res.render('writechapter', {storyTitle: req.params.story, chapterIndex: newChapterWrite, reader: req.session.reader});
+			} else {
+				/*console.log(req.originalUrl);
+				console.log(req.session.redirectedFrom);
+				res.session.redirectedFrom = req.originalUrl;
+				console.log(req.session.redirectedFrom);*/
+				return res.redirect('/signin');
+			}
+		} else if (newChapterWrite < story.canonChapters) {
+			return res.render('writechapter', {title: 'Chapter already written!', storyTitle: req.params.story, chapterIndex: -42, error: 'This chapter has already been written, and canonized!'});
+		} else {
+			return res.render('writechapter', {title: 'Chapter already written!', storyTitle: req.params.story, chapterIndex: 'infinity', error: 'We\'re not up to this chapter yet!'});
+		}
 	});
 };
 
@@ -368,24 +388,30 @@ exports.chapterSubmissions = function(req, res) {
 	var storyName = req.params.story;
 	var chaptNum = req.params.chapterNumber;
 
-	dbStory.storyModel.find({name: storyName}, function (error, story) {
-		dbStory.chapterModel.find({relatedStory: story.id, canon: false}, function (error, c) {
+	dbStory.storyModel.findOne({name: storyName}, function (error, story) {
+		dbStory.chapterModel.find({relatedStory: story.id, chapterNumber: chaptNum,canon: false}, function (error, c) {
 			if (error) {
 				res.render('nonCanon', {title: 'Submissions for Chapter ' + chaptNum, error: 'Database screwed up. Wait a moment, or something else, I dunno. Yell at the admin?', reader: req.session.reader});
 			}
+			/*console.log('story');
+			console.log(story);
+			console.log('chapters, non canon');
+			console.log(c);
+			console.log('story found id');
+			console.log(story.id);*/
 
-			var chapters = {};
+			console.log(c);
+
+			var chapters = [];
 			c.forEach(function (chapt, a) {
-				chapters[a] = c.chapterName;
+				chapters[a] = c[a].title;
 			});
 
 			console.log(chapters);
 
-			res.render('nonCanon', {title: 'Submissions for Chapter ' + chaptNum, story: story, chapters:chapters, reader: req.session.reader});
+			res.render('nonCanon', {title: 'Submissions for Chapter ' + chaptNum, chapterIndex: chaptNum, storyName: story.name, chapters: chapters, reader: req.session.reader});
 		});
 	});
-
-	
 };
 
 exports.nonCanonChapter = function(req, res) {
