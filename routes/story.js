@@ -350,15 +350,6 @@ exports.submitChapter = function(req, res) {
 					return res.render('writeChapter', {error: 'Database screwed up. Just wait a few minutes, it\'ll be fine. Probably.', reader: req.session.reader});
 				}
 
-				/*dbStory.storyModel.findByIdAndUpdate(story.id, {$inc: {chapters: anotherChapter}}, function (error, updatedStory) {
-					if (error) {
-						console.log('error find chapt');
-						return res.render('writeChapter', {error: 'Database screwed up. Just wait a few minutes, it\'ll be fine. Probably.', reader: req.session.reader});
-					}
-
-					res.redirect('/read/' + relatedStory + '/noncanon/' + nextChapterNumber);
-				});*/
-
 				story.chapters.push(anotherChapter);
 				story.save(function (error) {
 					if (error) {
@@ -368,15 +359,6 @@ exports.submitChapter = function(req, res) {
 
 					res.redirect('/read/' + relatedStory + '/noncanon/' + nextChapterNumber);
 				});
-
-				/*story.update({$push: {chapters: anotherChapter.id}}, {multi: false}, function (error, savedStory, numChanged) {
-					if (error) {
-						console.log('error find chapt');
-						return res.render('writeChapter', {error: 'Database screwed up. Just wait a few minutes, it\'ll be fine. Probably.', reader: req.session.reader});
-					}
-
-					res.redirect('/read/' + relatedStory + '/noncanon/' + nextChapterNumber);
-				});*/
 			});
 		});
 	});
@@ -389,7 +371,7 @@ exports.chapterSubmissions = function(req, res) {
 	var chaptNum = req.params.chapterNumber;
 
 	dbStory.storyModel.findOne({name: storyName}, function (error, story) {
-		dbStory.chapterModel.find({relatedStory: story.id, chapterNumber: chaptNum,canon: false}, function (error, c) {
+		dbStory.chapterModel.find({relatedStory: story.id, chapterNumber: chaptNum, canon: false}, function (error, c) {
 			if (error) {
 				res.render('nonCanon', {title: 'Submissions for Chapter ' + chaptNum, error: 'Database screwed up. Wait a moment, or something else, I dunno. Yell at the admin?', reader: req.session.reader});
 			}
@@ -398,26 +380,45 @@ exports.chapterSubmissions = function(req, res) {
 			console.log('chapters, non canon');
 			console.log(c);
 			console.log('story found id');
-			console.log(story.id);*/
+			console.log(story.id);
 
-			console.log(c);
+			console.log(c);*/
 
-			var chapters = [];
+			var chapters = [{}];
 			c.forEach(function (chapt, a) {
 				chapters[a] = c[a].title;
 			});
 
 			console.log(chapters);
 
-			res.render('nonCanon', {title: 'Submissions for Chapter ' + chaptNum, chapterIndex: chaptNum, storyName: story.name, chapters: chapters, reader: req.session.reader});
+			res.render('nonCanon', {title: 'Submissions for Chapter ' + chaptNum, chapterIndex: chaptNum, storyName: story.name, chapterTitles: chapters, reader: req.session.reader});
 		});
 	});
 };
 
 exports.nonCanonChapter = function(req, res) {
-	var story = req.params.story;
-	var chaptNumber = req.params.chapter;
+	var storyName = req.params.story;
+	var chaptNumber = req.params.chapterNumber;
 	var chaptTitle = req.params.chapterTitle;
 
+	dbStory.storyModel.findOne({name: storyName}, function (error, story) {
+		if (error) {
 
+		}
+
+		if (story) {
+
+			dbStory.chapterModel.findOne({relatedStory: story.id, chapterNumber: parseInt(chaptNumber), title: chaptTitle}, function (error, chapter) {
+				if (error) {
+
+				}
+
+				console.log(chapter);
+
+				if (chapter) {
+					res.render('readnoncanon', {title: 'noncanon', chapterIndex: chaptNumber, chapterText: chapter.text});
+				}
+			});
+		}
+	});
 };

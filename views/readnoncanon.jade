@@ -1,0 +1,61 @@
+//- Uses Special layout!!
+extends storylayout
+
+unless story
+	block header
+		script.
+
+			"use strict";
+
+			window.addEventListener('load', function(e) {
+				/*var newText = "#{chapterText}";
+				newText = newText.replace(/&lt;p&gt;/gm, '<p>'); //Create Paragraph Tags
+				newText = newText.replace(/&lt;\/p&gt;/gm, '</p>'); //Close Paragraph Tags
+				newText = newText.replace(/&amp;quot;/gm, '\"'); //switch quotations
+				newText = newText.replace(/&amp;#39;/gm, '\''); //switch apostophies*/
+				
+				document.querySelector('#contentGoesHere').innerHTML = '!{chapterText}';
+
+				var nextChapter = #{chapterIndex};
+
+				var nextChapterURL = '/read/#{storyName}/' + (nextChapter + 1);
+				document.querySelector('#linkToNextChapter').href = nextChapterURL;
+
+				/*if (nextChapter != 0) {
+					var nonCanonURL = '/read/#{storyName}/noncanon/' + nextChapter;
+					document.querySelector('#linkToNonCanon').href = nonCanonURL;
+				} else {
+					document.querySelector('#linkToNonCanon').innerHTML = '';
+				}
+
+				var list = !{chapterList};
+
+				var listElement = document.querySelector('#chapterList');
+				*/
+			});
+
+	block append content
+		br
+		br
+		// 
+			div#chapterListBox.left.sidebar
+				ul#chapterList
+		div#storyText.left.notSidebarContent
+			if(chapterIndex)
+				h1 #{chapterIndex}
+				h2 #{chapterTitle}
+			else
+				h1 #{chapterTitle}
+			if(error)
+				p #{error}
+			section(id='contentGoesHere')
+			// 
+				span
+					a#linkToNextChapter NEXT CHAPTER
+						img(src='/images/wot-temp.jpg')
+				div
+					a#linkToNonCanon Other Chapters
+
+
+
+	div#sidebar

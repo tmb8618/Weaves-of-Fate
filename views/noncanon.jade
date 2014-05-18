@@ -1,20 +1,25 @@
 extends layout
 
 script(src='../scripts/storiesPage.js')
-
 block content
 	h1= title
 	div.storyContainer
 		if(error)
 			p #{error}
 
-		if (chapters)
-			each chapt,index in chapters
-				a(href='/read/#{storyName}/noncanon/' + index)
-					p= chapt.title
+		if (chapterTitles)
+			each chapt,index in chapterTitles
+				a(href='/read/#{storyName}/noncanon/#{chapterIndex}/' + chapt) 
+					p chapt
+					
 
 		p Do these suck? 
 			a(href='/write/#{storyName}/#{chapterIndex}') Write your own!
+
+	script.
+		window.onload = function () {
+			console.log('#{chapterTitles}');
+		};
 
 	//
 		a(href='/read/knightquest')
