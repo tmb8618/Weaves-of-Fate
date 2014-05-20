@@ -53,14 +53,12 @@ unless story
 	block append content
 		br
 		br
-		div#chapterListBox.left.sidebar
+		div#chapterListBox.left.sidebar.clear
 			ul#chapterList
 		div#storyText.left.notSidebarContent
-			if(chapterIndex)
-				h1 #{chapterIndex}
-				h2 #{chapterTitle}
-			else
-				h1 #{chapterTitle}
+			h1.textCenter #{chapterIndex}
+			h2.textCenter #{chapterTitle}
+
 			if(error)
 				p #{error}
 			section(id='contentGoesHere')

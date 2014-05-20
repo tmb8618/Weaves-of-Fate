@@ -37,25 +37,15 @@ unless story
 	block append content
 		br
 		br
-		// 
-			div#chapterListBox.left.sidebar
-				ul#chapterList
 		div#storyText.left.notSidebarContent
 			if(chapterIndex)
-				h1 #{chapterIndex}
-				h2 #{chapterTitle}
+				h1.textCenter #{chapterIndex}
+				h2.textCenter #{chapterTitle}
 			else
 				h1 #{chapterTitle}
 			if(error)
 				p #{error}
 			section(id='contentGoesHere')
-			// 
-				span
-					a#linkToNextChapter NEXT CHAPTER
-						img(src='/images/wot-temp.jpg')
-				div
-					a#linkToNonCanon Other Chapters
-
 
 
 	div#sidebar

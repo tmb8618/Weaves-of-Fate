@@ -13,18 +13,18 @@ html(lang="en")
 			
 	body
 		div.inline
-			a.textLeft(id='homeLink', href='/') &#9733;
+			a.textLeft.left(id='homeLink', href='/') &#9733;
 			if(reader)
-				span.divideText.textLeft Welcome 
+				span.divideText.left.topPush Welcome 
 					a(href='/reader/#{reader.name}') #{reader.nickname}
-				span.divideText.textLeft
-					a(href='/logout') End the chapter, but not the story
+				span.divideText.right.topPush.rightPush
+					a(href='/logout') Logout
 			else
-				span.divideText.inline
+				span.divideText.inline.left.topPush
 					a(href='/signin') Sign In
-				span.divideText.inline
+				span.divideText.inline.left.topPush
 					a(href='/newreader') New Account
-			span.textRight
+			span.right.topPush.rightPush
 				if (reader)
 					if(reader.level >= 4)
 						span You're an admin! Go here to 

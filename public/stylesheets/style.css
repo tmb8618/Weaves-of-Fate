@@ -2,6 +2,10 @@
   
 }
 
+.textCenter {
+	text-align: center;
+}
+
 #homeLink {
 	font-size: 350%;
 }
@@ -64,6 +68,10 @@ a {
 }
 
 h1 {
+	clear: both;
+}
+
+.clear {
 	clear: both;
 }
 

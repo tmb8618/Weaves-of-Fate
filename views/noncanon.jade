@@ -3,6 +3,7 @@ extends layout
 script(src='../scripts/storiesPage.js')
 block content
 	h1= title
+	br
 	div.storyContainer
 		if(error)
 			p #{error}
@@ -10,9 +11,9 @@ block content
 		if (chapterTitles)
 			each chapt,index in chapterTitles
 				a(href='/read/#{storyName}/noncanon/#{chapterIndex}/' + chapt) 
-					p chapt
-					
-
+					p #{chapt}
+		br
+		br
 		p Do these suck? 
 			a(href='/write/#{storyName}/#{chapterIndex}') Write your own!
 
@@ -20,10 +21,3 @@ block content
 		window.onload = function () {
 			console.log('#{chapterTitles}');
 		};
-
-	//
-		a(href='/read/knightquest')
-			img(src='/images/')
-			p Knight Quest
-		a(href='/knightquest/chapters')
-			p Upcoming Chapters
