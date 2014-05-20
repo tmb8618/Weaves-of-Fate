@@ -88,6 +88,7 @@ app.get('/admin', routes.Admin.adminTools);
 app.post('/submitStory', routes.Story.submitStory);
 app.post('/createReader', routes.Reader.createReader);
 app.post('/readerSignIn', routes.Reader.signIn);
+app.post('/changeNickname', routes.Reader.changeNickname);
 app.post('/submitChapter/:story/:chapterNumber', routes.Story.submitChapter);
 app.post('/findReader', routes.Admin.AJAXfindReader);
 app.post('/changeNickname/:readerName/:newNickname', routes.Admin.AJAXforceChangeNickname);
