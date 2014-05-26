@@ -1,0 +1,16 @@
+extends layout
+
+block content
+	h1 #{title}
+	p This is a collaborative storytelling site. 
+	p Ever have a story idea? But, perhaps you're not an award winning novelist? Maybe you've felt like you couldn't see it through to the end, or have fears that your characters or writing won't be up to the lofty standards set by the author that inspired you.
+	p Those fears aren't completely baseless. After all, writing a novel is hard work, let alone writing a good one. Most accomplished authors spend one year of drafts, rewrites, editing, arguing with the editor, writing again and proofreading before their story is complete. Genre authors like Lee Child work hard to create new senarios with the same characters in the same situations, lest their books fall into obscurity by being repetitive. Other authors can spend much longer between complete books (or perhaps just not as pressured to fill a paycheck). Though, I do imagine these 'long-haul' authors, like George RR Martin, have more summer bonfires parties burning their non-final drafts. 
+	p But with this site, you can take your one-note ideas, your partially concepts and your errant passing thoughts and send them to the cold, uncaring internet beyond the (relative) saftey of your mind. Here, your idea can become the seed that inspires an epic in the minds of dozens. Where each will try their best to write the story that captures the imagination of thousands more. Suddenly, your idea became something you never expected. Something greater. A bizarre twisting tale that only the next chapter's author could predict. 
+	p From your base concept, someone will write the next chapter. The best one will be decided upon by all readers, and adapted into the basis for the chapter after that. This continues until an ending is decided upon by all. Will the story continue after that? Whose story is it anyways? After an epic is written, does it matter?
+	br
+	if reader == undefined
+		p 
+			a.button(id='newReader' href='newreader') Create an Account
+	else
+		p
+			a.button(href='/writeStory') Start a Story Now

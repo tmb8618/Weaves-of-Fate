@@ -73,6 +73,7 @@ if ('development' == app.get('env')) {
 // app.get(this is the part of the url it looks for,
 //			this is the function it looks for in the filepath);
 app.get('/', routes.index);
+app.get('/about', routes.about);
 app.get('/stories', routes.Story.stories);
 app.get('/newreader', routes.Reader.newReaderPage);
 app.get('/signin', routes.Reader.signInPage);

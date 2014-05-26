@@ -30,6 +30,10 @@ exports.index = function(req, res) {
 	res.render('index', { title: 'Weaves of Fate', reader: req.session.reader});
 };
 
+exports.about = function (req, res ) {
+	res.render('about', {title: 'What\'s This Site About?', reader: req.session.reader});
+}
+
 /*exports.helloworld = function(req, res) {
 	res.render('helloworld', { title: 'KAWAII!'});
 };*/
